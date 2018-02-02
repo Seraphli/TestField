@@ -21,7 +21,7 @@ For example:
 Or you may use `python node_start_script.py` to start a node.
 
 **Notice**: Do not directly run script in Pycharm.
-Node may not be reachable due to some problem.
+Node may not be reachable due to unknown problems.
 
 ## Client
 
