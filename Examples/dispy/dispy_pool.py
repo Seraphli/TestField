@@ -12,6 +12,7 @@ class DispyPool(object):
     def __init__(self, func, nodes):
         lan_ip = get_local_ip()
         import dispy
+        self.func = func
         self.cluster = dispy.JobCluster(func,
                                         ip_addr=lan_ip,
                                         ext_ip_addr=lan_ip,
@@ -30,6 +31,12 @@ class DispyPool(object):
             if job.stdout != "":
                 print("stdout", job.stdout)
             results.append(result)
+        return results
+
+    def test_map(self, args):
+        results = []
+        for arg in args:
+            results.append(self.func(arg))
         return results
 
     def stats(self):
