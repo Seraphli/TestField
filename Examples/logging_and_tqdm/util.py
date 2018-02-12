@@ -2,6 +2,14 @@ import logging
 
 
 def get_path(name):
+    """Create path if path don't exist
+    
+    Args:
+        name: folder name
+
+    Returns: Path of the folder
+
+    """
     import os
     directory = os.path.abspath(os.path.join(os.path.dirname(__file__), name))
     if not os.path.exists(directory):
