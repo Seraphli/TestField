@@ -14,6 +14,10 @@ class SubmitThread(threading.Thread):
     def run(self):
         job = self.cluster.submit(self.arg)
         result = job()
+        if job.exception is not None:
+            print("exception: {}".format(job.exception))
+        if job.stdout != "":
+            print("stdout: {}".format(job.stdout))
         self.callback(result=result)
         self.threads.remove(self)
         if self.sema:
