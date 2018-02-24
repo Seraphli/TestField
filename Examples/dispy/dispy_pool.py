@@ -9,6 +9,7 @@ class SubmitThread(threading.Thread):
         self.callback = callback
         self.threads = threads
         self.sema = sema
+        self.daemon = True
 
     def run(self):
         job = self.cluster.submit(self.arg)
@@ -102,4 +103,6 @@ class DispyPool(object):
         self.threads = []
 
     def close(self):
-        self.cluster.close()
+        self.cluster.close(timeout=0.1, terminate=True)
+        for t in self.threads:
+            t.join(0.01)
