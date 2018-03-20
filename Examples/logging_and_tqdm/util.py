@@ -86,18 +86,20 @@ def init_logger(name, path=None):
     nformatter = logging.Formatter('-'.join(_nf))
     cformatter = ColoredFormatter('-'.join(_cf))
 
-    ch = logging.StreamHandler(sys.stdout)
-    ch.setLevel(logging.INFO)
-    ch.setFormatter(cformatter)
-
     if path:
         path += '/' + name + '.log'
     else:
         path = get_path('log') + '/' + name + '.log'
-    rf = logging.handlers.RotatingFileHandler(path, maxBytes=50 * 1024 * 1024, backupCount=5)
+
+    rf = logging.handlers.RotatingFileHandler(path, maxBytes=50 * 1024 * 1024,
+                                              backupCount=5)
     rf.setLevel(logging.DEBUG)
     rf.setFormatter(nformatter)
 
-    logger.addHandler(ch)
+    ch = logging.StreamHandler(sys.stdout)
+    ch.setLevel(logging.INFO)
+    ch.setFormatter(cformatter)
+
     logger.addHandler(rf)
+    logger.addHandler(ch)
     return logger
