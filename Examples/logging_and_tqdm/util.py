@@ -1,17 +1,31 @@
 import logging
 
 
-def get_path(name):
+def get_path(name, abspath=None, relative_path=None, _file=None):
     """Create path if path don't exist
     
     Args:
         name: folder name
+        abspath: absolute path to be prefix
+        relative_path: relative path that can be convert into absolute path
+        _file: use directory based on _file
 
     Returns: Path of the folder
 
     """
     import os
-    directory = os.path.abspath(os.path.join(os.path.dirname(__file__), name))
+    if abspath:
+        directory = os.path.abspath(os.path.join(abspath, name))
+    elif relative_path:
+        directory = os.path.abspath(os.path.join(
+            os.path.abspath(relative_path), name))
+    else:
+        if _file:
+            directory = os.path.abspath(
+                os.path.join(os.path.dirname(_file), name))
+        else:
+            directory = os.path.abspath(
+                os.path.join(os.path.dirname(__file__), name))
     if not os.path.exists(directory):
         os.makedirs(directory)
     return directory
@@ -44,7 +58,8 @@ class ColoredFormatter(logging.Formatter):
     def format(self, record):
         levelname = record.levelname
         if levelname in COLORS:
-            levelname_color = COLOR_SEQ % (30 + COLORS[levelname]) + levelname + RESET_SEQ
+            levelname_color = COLOR_SEQ % (
+                30 + COLORS[levelname]) + levelname + RESET_SEQ
             record.levelname = levelname_color
         message = logging.Formatter.format(self, record)
         message = message.replace("$RESET", RESET_SEQ) \
@@ -91,8 +106,8 @@ def init_logger(name, path=None):
     else:
         path = get_path('log') + '/' + name + '.log'
 
-    rf = logging.handlers.RotatingFileHandler(path, maxBytes=50 * 1024 * 1024,
-                                              backupCount=5)
+    rf = logging.handlers.RotatingFileHandler(
+        path, maxBytes=50 * 1024 * 1024, backupCount=5)
     rf.setLevel(logging.DEBUG)
     rf.setFormatter(nformatter)
 
