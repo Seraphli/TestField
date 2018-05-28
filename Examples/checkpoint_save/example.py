@@ -1,10 +1,14 @@
 import os
-import pickle
 import time
 
 
 class CheckPoint(object):
-    def __init__(self):
+    def __init__(self, dill=False):
+        if dill:
+            import dill as p_tool
+        else:
+            import pickle as p_tool
+        self._p_tool = p_tool
         self._state = {}
 
     def update(self, key, value):
@@ -12,14 +16,14 @@ class CheckPoint(object):
 
     def save(self):
         with open('checkpoint.pkl', 'wb') as f:
-            pickle.dump(self._state, f)
+            self._p_tool.dump(self._state, f)
 
     def restore(self):
         if os.path.exists('checkpoint.pkl'):
             cmd = input('Restore checkpoint? [y/n]: ')
             if cmd in 'y' or cmd in 'Y':
                 with open('checkpoint.pkl', 'rb') as f:
-                    self._state = pickle.load(f)
+                    self._state = self._p_tool.load(f)
                 self.__dict__.update(self._state)
                 return True
             else:
