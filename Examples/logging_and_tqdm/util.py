@@ -118,3 +118,106 @@ def init_logger(name, path=None):
     logger.addHandler(rf)
     logger.addHandler(ch)
     return logger
+
+
+class DummyLogger(object):
+    """Dummy logger, replace all method with pass"""
+
+    def __init__(self):
+        pass
+
+    def setLevel(self, level):
+        pass
+
+    def debug(self, msg, *args, **kwargs):
+        pass
+
+    def info(self, msg, *args, **kwargs):
+        pass
+
+    def warning(self, msg, *args, **kwargs):
+        pass
+
+    def warn(self, msg, *args, **kwargs):
+        pass
+
+    def error(self, msg, *args, **kwargs):
+        pass
+
+    def exception(self, msg, *args, exc_info=True, **kwargs):
+        pass
+
+    def critical(self, msg, *args, **kwargs):
+        pass
+
+    fatal = critical
+
+    def log(self, level, msg, *args, **kwargs):
+        pass
+
+    def findCaller(self, stack_info=False):
+        pass
+
+    def makeRecord(self, name, level, fn, lno, msg, args, exc_info,
+                   func=None, extra=None, sinfo=None):
+        pass
+
+    def _log(self, level, msg, args, exc_info=None, extra=None,
+             stack_info=False):
+        pass
+
+    def handle(self, record):
+        pass
+
+    def addHandler(self, hdlr):
+        pass
+
+    def removeHandler(self, hdlr):
+        pass
+
+    def hasHandlers(self):
+        pass
+
+    def callHandlers(self, record):
+        pass
+
+    def getEffectiveLevel(self):
+        pass
+
+    def isEnabledFor(self, level):
+        pass
+
+    def getChild(self, suffix):
+        pass
+
+
+class Dummytqdm(object):
+    def update(self):
+        pass
+
+    def close(self):
+        pass
+
+    def unpause(self):
+        pass
+
+    def set_description(self, desc=None, refresh=True):
+        pass
+
+    def set_description_str(self, desc=None, refresh=True):
+        pass
+
+    def set_postfix(self, ordered_dict=None, refresh=True, **kwargs):
+        pass
+
+    def set_postfix_str(self, s='', refresh=True):
+        pass
+
+    def moveto(self, n):
+        pass
+
+    def clear(self, nolock=False):
+        pass
+
+    def refresh(self, nolock=False):
+        pass

@@ -2,16 +2,23 @@ from tqdm import tqdm
 import sys
 import random
 import time
-from util import init_logger
+from util import init_logger, DummyLogger, Dummytqdm
 
 TOTAL = 100
+DEBUG = True
 
 # https://github.com/tqdm/tqdm/issues/481
 tqdm.monitor_interval = 0
 
-logger = init_logger("example")
+if DEBUG:
+    logger = init_logger("example")
+else:
+    logger = DummyLogger()
 logger.warning("There will display multiple processbar.")
-pbar = tqdm(total=TOTAL, file=sys.stdout)
+if DEBUG:
+    pbar = tqdm(total=TOTAL, file=sys.stdout)
+else:
+    pbar = Dummytqdm()
 n = 0
 while n < TOTAL:
     completed = random.randint(1, 4)
