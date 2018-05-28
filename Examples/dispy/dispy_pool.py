@@ -38,7 +38,7 @@ def get_local_ip():
 class DispyPool(object):
     """Use Dispy like mp.pool"""
 
-    def __init__(self, func, nodes, limit=0):
+    def __init__(self, func, nodes, limit=0, port=7000):
         """Initialize pool object with the function
         
         Args:
@@ -54,7 +54,8 @@ class DispyPool(object):
         self.cluster = dispy.JobCluster(func,
                                         ip_addr=lan_ip,
                                         ext_ip_addr=lan_ip,
-                                        nodes=nodes)
+                                        nodes=nodes,
+                                        port=port)
         self.threads = []
         self.pool_sema = None
         if limit > 0:
