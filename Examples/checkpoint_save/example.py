@@ -14,19 +14,19 @@ class CheckPoint(object):
             import dill as p_tool
         else:
             import pickle as p_tool
-        self._p_tool = p_tool
-        self._state = {}
-        self._fn = get_timestamp()
-        self.update('_fn', self._fn)
+        self._cp_p_tool = p_tool
+        self._cp_state = {}
+        self._cp_fn = get_timestamp()
+        self.update_cp('_fn', self._cp_fn)
 
-    def update(self, key, value):
-        self._state.update({key: value})
+    def update_cp(self, key, value):
+        self._cp_state.update({key: value})
 
-    def save(self):
-        with open('checkpoint_' + self._fn + '.cp', 'wb') as f:
-            self._p_tool.dump(self._state, f)
+    def save_cp(self):
+        with open('checkpoint_' + self._cp_fn + '.cp', 'wb') as f:
+            self._cp_p_tool.dump(self._cp_state, f)
 
-    def restore(self):
+    def restore_cp(self):
         cp_files = glob.glob('checkpoint_????????_??????.cp')
         cp_files = sorted(cp_files, reverse=True)
         if cp_files:
@@ -44,8 +44,8 @@ class CheckPoint(object):
                     print('Index out of range!')
                     return False
                 with open(cp_files[index], 'rb') as f:
-                    self._state = self._p_tool.load(f)
-                self.__dict__.update(self._state)
+                    self._cp_state = self._cp_p_tool.load(f)
+                self.__dict__.update(self._cp_state)
                 return True
             elif action == 'c' or action == 'clear':
                 cmd = input('WARN: Clear all checkpoints? [y/N]')
@@ -61,9 +61,9 @@ class CheckPoint(object):
                 print('Unrecognized action!')
         return False
 
-    def clear(self):
-        if os.path.exists('checkpoint_' + self._fn + '.cp'):
-            os.remove('checkpoint_' + self._fn + '.cp')
+    def clear_cp(self):
+        if os.path.exists('checkpoint_' + self._cp_fn + '.cp'):
+            os.remove('checkpoint_' + self._cp_fn + '.cp')
 
 
 class Project(CheckPoint):
@@ -72,21 +72,21 @@ class Project(CheckPoint):
         self.setup()
 
     def setup(self):
-        if not self.restore():
+        if not self.restore_cp():
             self.count = 0
-            self.update('count', self.count)
+            self.update_cp('count', self.count)
 
     def run(self):
         while self.count < 100:
             time.sleep(0.1)
             self.count += 1
             print('count {}'.format(self.count))
-            self.update('count', self.count)
-            self.save()
+            self.update_cp('count', self.count)
+            self.save_cp()
         self.close()
 
     def close(self):
-        self.clear()
+        self.clear_cp()
 
 
 def main():
