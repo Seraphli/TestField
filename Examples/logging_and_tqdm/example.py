@@ -33,7 +33,10 @@ pbar.close()
 logger.info("Finished.")
 
 logger.info("Another job.")
-pbar = tqdm(total=TOTAL, file=sys.stdout)
+if DEBUG:
+    pbar = tqdm(total=TOTAL, file=sys.stdout)
+else:
+    pbar = Dummytqdm()
 for _ in range(TOTAL):
     time.sleep(0.05)
     pbar.update()

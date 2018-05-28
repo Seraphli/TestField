@@ -192,7 +192,7 @@ class DummyLogger(object):
 
 
 class Dummytqdm(object):
-    def update(self):
+    def update(self, n=1):
         pass
 
     def close(self):
