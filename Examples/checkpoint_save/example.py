@@ -17,7 +17,7 @@ class CheckPoint(object):
         self._cp_p_tool = p_tool
         self._cp_state = {}
         self._cp_fn = get_timestamp()
-        self.update_cp('_fn', self._cp_fn)
+        self.update_cp('_cp_fn', self._cp_fn)
 
     def update_cp(self, key, value):
         self._cp_state.update({key: value})
