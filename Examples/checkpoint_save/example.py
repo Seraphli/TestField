@@ -46,7 +46,7 @@ class CheckPoint(object):
                     print('Index out of range!')
                     return False
                 with open(cp_files[index], 'rb') as f:
-                    self._cp_state = self._cp_p_tool.load(f)
+                    self._cp_state.update(self._cp_p_tool.load(f))
                 self.__dict__.update(self._cp_state)
                 return True
             elif action == 'c' or action == 'clear':
