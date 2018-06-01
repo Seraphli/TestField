@@ -9,7 +9,8 @@ def get_timestamp():
 
 
 class CheckPoint(object):
-    def __init__(self, dill=False):
+    def __init__(self, prefix='', dill=False):
+        self.prefix = prefix
         if dill:
             import dill as p_tool
         else:
@@ -23,11 +24,11 @@ class CheckPoint(object):
         self._cp_state.update({key: value})
 
     def save_cp(self):
-        with open('checkpoint_' + self._cp_fn + '.cp', 'wb') as f:
+        with open(self.prefix + 'checkpoint_' + self._cp_fn + '.cp', 'wb') as f:
             self._cp_p_tool.dump(self._cp_state, f)
 
     def restore_cp(self):
-        cp_files = glob.glob('checkpoint_????????_??????.cp')
+        cp_files = glob.glob(self.prefix + 'checkpoint_????????_??????.cp')
         cp_files = sorted(cp_files, reverse=True)
         if cp_files:
             print('Found {} checkpoint files.'.format(len(cp_files)))
@@ -62,8 +63,8 @@ class CheckPoint(object):
         return False
 
     def clear_cp(self):
-        if os.path.exists('checkpoint_' + self._cp_fn + '.cp'):
-            os.remove('checkpoint_' + self._cp_fn + '.cp')
+        if os.path.exists(self.prefix + 'checkpoint_' + self._cp_fn + '.cp'):
+            os.remove(self.prefix + 'checkpoint_' + self._cp_fn + '.cp')
 
 
 class Project(CheckPoint):
