@@ -19,6 +19,8 @@ class CheckPoint(object):
         self._cp_state = {}
         self._cp_fn = get_timestamp()
         self.update_cp('_cp_fn', self._cp_fn)
+        self._cp_intro = ''
+        self.update_cp('_cp_intro', self._cp_intro)
 
     def update_cp(self, key, value):
         self._cp_state.update({key: value})
@@ -39,7 +41,9 @@ class CheckPoint(object):
             elif action == 'r' or action == 'restore':
                 print('All checkpoint files:')
                 for idx, file in enumerate(cp_files):
-                    print('[{}] {}'.format(idx, file))
+                    with open(file, 'rb') as f:
+                        cp = self._cp_p_tool.load(f)
+                    print('[{}] {} ({})'.format(idx, file, cp['_cp_intro']))
                 index = int(input('Input the index of the file[{}-{}]: '.
                                   format(0, len(cp_files) - 1)))
                 if index > len(cp_files) or index < 0:
@@ -72,6 +76,8 @@ class CheckPoint(object):
 class Project(CheckPoint):
     def __init__(self):
         super(Project, self).__init__()
+        self._cp_intro = 'Project'
+        self.update_cp('_cp_intro', self._cp_intro)
         self.setup()
 
     def setup(self):
