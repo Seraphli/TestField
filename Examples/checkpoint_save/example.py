@@ -43,7 +43,10 @@ class CheckPoint(object):
                 for idx, file in enumerate(cp_files):
                     with open(file, 'rb') as f:
                         cp = self._cp_p_tool.load(f)
-                    print('[{}] {} ({})'.format(idx, file, cp['_cp_intro']))
+                    if '_cp_intro' in cp:
+                        print('[{}] {} ({})'.format(idx, file, cp['_cp_intro']))
+                    else:
+                        print('[{}] {}'.format(idx, file))
                 index = int(input('Input the index of the file[{}-{}]: '.
                                   format(0, len(cp_files) - 1)))
                 if index > len(cp_files) or index < 0:
