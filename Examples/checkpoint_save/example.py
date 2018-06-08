@@ -53,8 +53,8 @@ class CheckPoint(object):
                     print('Index out of range!')
                     return False
                 with open(cp_files[index], 'rb') as f:
-                    self._cp_state.update(self._cp_p_tool.load(f))
-                self.__dict__.update(self._cp_state)
+                    cp = self._cp_p_tool.load(f)
+                self.restore_from_cp(cp)
                 return True
             elif action == 'c' or action == 'clear':
                 cmd = input('WARN: Clear all checkpoints? [y/N]')
@@ -69,6 +69,13 @@ class CheckPoint(object):
             else:
                 print('Unrecognized action!')
         return False
+
+    def export_cp(self):
+        return self._cp_state
+
+    def restore_from_cp(self, cp):
+        self._cp_state.update(cp)
+        self.__dict__.update(self._cp_state)
 
     def clear_cp(self):
         if os.path.exists(self._cp_prefix + 'checkpoint_' +
