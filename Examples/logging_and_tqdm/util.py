@@ -71,14 +71,17 @@ class ColoredFormatter(logging.Formatter):
         return message + RESET_SEQ
 
 
-def init_logger(name, path=None):
+def init_logger(name, path=None, level=(logging.DEBUG, logging.INFO)):
     """Initialize a logger with certain name
 
     Args:
-        name (str): logger name 
-        path (str): optional, specify which folder path 
+        name (str): Logger name
+        path (str): Optional, specify which folder path
             the log file will be stored, for example
             '/tmp/log'
+        level (tuple): Optional, consist of two logging level.
+            The first stands for logging level of file handler,
+            and the second stands for logging level of console handler.
 
     Returns:
         logging.Logger: logger instance
@@ -106,13 +109,13 @@ def init_logger(name, path=None):
     else:
         path = get_path('log') + '/' + name + '.log'
 
-    rf = logging.handlers.RotatingFileHandler(
-        path, maxBytes=50 * 1024 * 1024, backupCount=5)
-    rf.setLevel(logging.DEBUG)
+    rf = logging.handlers.RotatingFileHandler(path, maxBytes=50 * 1024 * 1024,
+                                              backupCount=5)
+    rf.setLevel(level[0])
     rf.setFormatter(nformatter)
 
     ch = logging.StreamHandler(sys.stdout)
-    ch.setLevel(logging.INFO)
+    ch.setLevel(level[1])
     ch.setFormatter(cformatter)
 
     logger.addHandler(rf)
