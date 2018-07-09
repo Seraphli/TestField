@@ -5,7 +5,7 @@ import glob
 
 def get_timestamp():
     import datetime
-    return datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    return datetime.datetime.now().strftime('%Y%m%d_%H%M%S')
 
 
 class CheckPoint(object):

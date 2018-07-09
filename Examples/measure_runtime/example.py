@@ -7,18 +7,18 @@ def measure_time_wrapper(func):
         start = time.time()
         func()
         stop = time.time()
-        print("[{0}] finished in {1:.4} sec".format(func.__name__,
+        print('[{0}] finished in {1:.4} sec'.format(func.__name__,
                                                     stop - start))
 
     return wrapper
 
 
 @contextmanager
-def measure_time_context(name="unnamed context"):
+def measure_time_context(name='unnamed context'):
     elapsed = time.time()
     yield
     elapsed = time.time() - elapsed
-    print("[{0}] finished in {1:.4} sec".format(name, elapsed))
+    print('[{0}] finished in {1:.4} sec'.format(name, elapsed))
 
 
 @measure_time_wrapper
@@ -36,7 +36,7 @@ def foo_2():
 
 def main():
     foo_1()
-    with measure_time_context("foo_2"):
+    with measure_time_context('foo_2'):
         foo_2()
 
 

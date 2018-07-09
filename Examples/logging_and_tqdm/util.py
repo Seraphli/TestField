@@ -32,9 +32,9 @@ def get_path(name, abspath=None, relative_path=None, _file=None):
 
 
 BLACK, RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN, WHITE = range(8)
-RESET_SEQ = "\033[0m"
-COLOR_SEQ = "\033[1;%dm"
-BOLD_SEQ = "\033[1m"
+RESET_SEQ = '\033[0m'
+COLOR_SEQ = '\033[1;%dm'
+BOLD_SEQ = '\033[1m'
 COLORS = {
     'WARNING': YELLOW,
     'INFO': WHITE,
@@ -59,15 +59,15 @@ class ColoredFormatter(logging.Formatter):
         levelname = record.levelname
         if levelname in COLORS:
             levelname_color = COLOR_SEQ % (
-                30 + COLORS[levelname]) + levelname + RESET_SEQ
+                    30 + COLORS[levelname]) + levelname + RESET_SEQ
             record.levelname = levelname_color
         message = logging.Formatter.format(self, record)
-        message = message.replace("$RESET", RESET_SEQ) \
-            .replace("$BOLD", BOLD_SEQ)
+        message = message.replace('$RESET', RESET_SEQ) \
+            .replace('$BOLD', BOLD_SEQ)
         for k, v in COLORS.items():
-            message = message.replace("$" + k, COLOR_SEQ % (v + 30)) \
-                .replace("$BG" + k, COLOR_SEQ % (v + 40)) \
-                .replace("$BG-" + k, COLOR_SEQ % (v + 40))
+            message = message.replace('$' + k, COLOR_SEQ % (v + 30)) \
+                .replace('$BG' + k, COLOR_SEQ % (v + 40)) \
+                .replace('$BG-' + k, COLOR_SEQ % (v + 40))
         return message + RESET_SEQ
 
 

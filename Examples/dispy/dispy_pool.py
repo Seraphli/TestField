@@ -15,9 +15,9 @@ class SubmitThread(threading.Thread):
         job = self.cluster.submit(self.arg)
         result = job()
         if job.exception is not None:
-            print("exception: {}".format(job.exception))
-        if job.stdout != "":
-            print("stdout: {}".format(job.stdout))
+            print('exception: {}'.format(job.exception))
+        if job.stdout != '':
+            print('stdout: {}'.format(job.stdout))
         self.callback(result=result)
         self.threads.remove(self)
         if self.sema:
@@ -27,11 +27,11 @@ class SubmitThread(threading.Thread):
 def get_local_ip():
     import socket
     lan_ip = (([ip for ip in socket.gethostbyname_ex(socket.gethostname())[2]
-                if not ip.startswith("127.")]
-               or [[(s.connect(("8.8.8.8", 53)), s.getsockname()[0], s.close())
+                if not ip.startswith('127.')]
+               or [[(s.connect(('8.8.8.8', 53)), s.getsockname()[0], s.close())
                     for s in [socket.socket(socket.AF_INET,
                                             socket.SOCK_DGRAM)]][0][1]])
-              + ["no IP found"])[0]
+              + ['no IP found'])[0]
     return lan_ip
 
 
@@ -70,9 +70,9 @@ class DispyPool(object):
         for job in jobs:
             result = job()
             if job.exception is not None:
-                print("exception", job.exception)
-            if job.stdout != "":
-                print("stdout", job.stdout)
+                print('exception', job.exception)
+            if job.stdout != '':
+                print('stdout', job.stdout)
             results.append(result)
         return results
 
