@@ -1,24 +1,4 @@
-import random
 import numpy as np
-import matplotlib.pyplot as plt
-
-N = 10
-EPSILON = 0.01
-
-
-def softmax(x):
-    return np.exp(x) / np.sum(np.exp(x))
-
-
-class Generator(object):
-    def __init__(self):
-        self.random = np.random.RandomState(0)
-        self.z = self.random.rand(N)
-        self.p = softmax(self.z)
-        self.dataset = np.arange(10)
-
-    def __next__(self):
-        return self.random.choice(self.dataset, p=self.p)
 
 
 class StatDataSet(object):
@@ -73,17 +53,17 @@ class DataSet(StatDataSet):
             self.x_set, self.y_set = self.x_y_set
         if data in self.x_set:
             if self.mse < 5 / self.m:
-                if random.random() < 0.5 + self.mse:
+                if np.random.random() < 0.5 + self.mse:
                     return True
             else:
-                if random.random() < 0.99:
+                if np.random.random() < 0.99:
                     return True
         if data in self.y_set:
             if self.mse < 5 / self.m:
-                if random.random() < 0.5 + self.mse:
+                if np.random.random() < 0.5 + self.mse:
                     return True
             else:
-                if random.random() < 0.01:
+                if np.random.random() < 0.01:
                     return True
         return False
 
@@ -109,7 +89,23 @@ class DataSet(StatDataSet):
             np.sum(np.power(self.p - np.ones(self.n_class) * self.p_target, 2)))
 
 
-def demo():
+def main():
+    import matplotlib.pyplot as plt
+    N = 10
+
+    def softmax(x):
+        return np.exp(x) / np.sum(np.exp(x))
+
+    class Generator(object):
+        def __init__(self):
+            self.random = np.random.RandomState(0)
+            self.z = self.random.rand(N)
+            self.p = softmax(self.z)
+            self.dataset = np.arange(10)
+
+        def __next__(self):
+            return self.random.choice(self.dataset, p=self.p)
+
     g = Generator()
     d = DataSet(5000, N)
     loss = []
@@ -128,4 +124,4 @@ def demo():
 
 
 if __name__ == '__main__':
-    demo()
+    main()
