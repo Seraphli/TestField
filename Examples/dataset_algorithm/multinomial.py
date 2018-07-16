@@ -69,42 +69,13 @@ class DataSet(StatDataSet):
             return True
         if self.accept:
             self.x_set, self.y_set = self.x_y_set
-            self._rx = self.rx()
-            self._ry = self.ry(self._rx)
         if data in self.x_set:
-            if random.random() < self._rx:
+            if random.random() < 0.8:
                 return True
         if data in self.y_set:
-            if random.random() < self._ry:
+            if random.random() < 0.2:
                 return True
         return False
-
-    def rx(self):
-        l = []
-        x, y = self.x_y_set
-        for i in range(N):
-            _l = self.p[i] * np.sum(self._stat.p[list(y - {i})]) / \
-                 self.denominator(i, x)
-            l.append(_l)
-        _e = EPSILON * 10
-        return min(1 - _e, max(0 + _e, max(l) + _e))
-
-    def ry(self, rx):
-        l = []
-        x, y = self.x_y_set
-        for i in range(N):
-            _l = rx * self.p[i] * np.sum(self._stat.p[list(x - {i})]) / \
-                 self.denominator(i, y)
-            l.append(_l)
-        _e = EPSILON * 10
-        return max(0 + _e, min(1 - _e, min(l) - _e))
-
-    def denominator(self, i, s):
-        d = self._stat.p[i] * (1 - self.p[i]) - self.p[i] * np.sum(
-            self._stat.p[list(s - {i})])
-        if d == 0:
-            d += 1e-5
-        return d
 
     @property
     def x_y_set(self):
@@ -128,17 +99,17 @@ def demo():
         if d.is_full:
             _loss = np.sqrt(np.sum(np.power(d.p - np.ones(N) * Q_TARGET, 2)))
             loss.append(_loss)
-            if _loss < 0.001 or _ > 15000:
+            if _loss < 0.001:
                 print(f'q: {d.p}')
                 print(f'index: {_}')
-                plt.figure()
-                plt.plot(loss)
-                plt.savefig('loss.png')
-                plt.close()
-                import pickle
-                with open('loss.pkl', 'wb') as f:
-                    pickle.dump(loss, f)
                 break
+    plt.figure()
+    plt.plot(loss)
+    plt.savefig('loss.png')
+    plt.close()
+    import pickle
+    with open('loss.pkl', 'wb') as f:
+        pickle.dump(loss, f)
 
 
 if __name__ == '__main__':
