@@ -33,10 +33,11 @@ class StatDataSet(object):
 
 
 class DataSet(StatDataSet):
-    def __init__(self, m, n_class):
+    def __init__(self, m, n_class, threshold=(0.99, 0.01)):
         super(DataSet, self).__init__(m, n_class)
         self._stat = StatDataSet(n_class * 100, n_class)
         self.accept = True
+        self.threshold = threshold
 
     def add(self, data):
         self._stat.update(data)
@@ -56,14 +57,14 @@ class DataSet(StatDataSet):
                 if np.random.random() < 0.5 + self.mse:
                     return True
             else:
-                if np.random.random() < 0.99:
+                if np.random.random() < self.threshold[0]:
                     return True
         if data in self.y_set:
             if self.mse < 5 / self.m:
                 if np.random.random() < 0.5 + self.mse:
                     return True
             else:
-                if np.random.random() < 0.01:
+                if np.random.random() < self.threshold[1]:
                     return True
         return False
 
