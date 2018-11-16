@@ -50,6 +50,7 @@ class DataSet(StatDataSet):
     def should_accept(self, data):
         if self._size < self.m:
             return True
+        # Recalculate only if data is accepted last time
         if self.accept:
             self.x_set, self.y_set = self.x_y_set
         if data in self.x_set:
@@ -61,7 +62,7 @@ class DataSet(StatDataSet):
                     return True
         if data in self.y_set:
             if self.mse < 5 / self.m:
-                if np.random.random() < 0.5 + self.mse:
+                if np.random.random() < 0.5 - self.mse:
                     return True
             else:
                 if np.random.random() < self.threshold[1]:
@@ -79,8 +80,10 @@ class DataSet(StatDataSet):
         y = set()
         for i in range(self.n_class):
             if self.p_target > _p[i]:
+                # Less than expected number
                 x.add(i)
             else:
+                # More than expected number
                 y.add(i)
         return x, y
 
