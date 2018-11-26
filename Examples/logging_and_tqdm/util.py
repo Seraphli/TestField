@@ -130,6 +130,16 @@ def init_logger(name, path=None, level=(logging.DEBUG, logging.INFO)):
     return logger
 
 
+import datetime
+
+
+def get_run_timestamp():
+    return datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+
+RUN_TIMESTAMP = get_run_timestamp()
+
+
 class DummyLogger(object):
     """Dummy logger, replace all method with pass"""
 
