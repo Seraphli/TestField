@@ -78,6 +78,11 @@ class ColoredFormatter(logging.Formatter):
         return message + RESET_SEQ
 
 
+def get_frame():
+    import sys
+    return sys._getframe(1)
+
+
 def init_logger(name, path=None, level=(logging.INFO, logging.DEBUG),
                 enable=(True, True)):
     """Initialize a logger with certain name
@@ -144,10 +149,10 @@ def init_logger(name, path=None, level=(logging.INFO, logging.DEBUG),
             f = frame
         else:
             f = currentframe()
-        # On some versions of IronPython, currentframe() returns None if
-        # IronPython isn't run with -X:Frames.
-        if f is not None:
-            f = f.f_back
+            # On some versions of IronPython, currentframe() returns None if
+            # IronPython isn't run with -X:Frames.
+            if f is not None:
+                f = f.f_back
         rv = "(unknown file)", 0, "(unknown function)", None
         while hasattr(f, "f_code"):
             co = f.f_code
