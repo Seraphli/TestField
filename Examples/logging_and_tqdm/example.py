@@ -33,9 +33,10 @@ def main():
         if completed == 4:
             logger.error('Demonstrate error message:'
                          ' {} job(s) complete.'.format(completed))
+        update_n = min(TOTAL - n, completed)
         n += completed
         time.sleep(0.02)
-        pbar.update(completed)
+        pbar.update(update_n)
     pbar.close()
     logger.info('Finished.')
 
