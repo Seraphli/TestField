@@ -42,6 +42,36 @@ def get_path(name='log', abspath=None, relative_path=None,
         os.makedirs(directory)
     return directory
 
+  
+def _find_caller(f):
+    from logging import os, _srcfile
+    rv = "(unknown file)", 0, "(unknown function)", None
+    while hasattr(f, "f_code"):
+        co = f.f_code
+        filename = os.path.normcase(co.co_filename)
+        if filename == _srcfile:
+            f = f.f_back
+            continue
+        sinfo = None
+        rv = (co.co_filename, f.f_lineno, co.co_name, sinfo)
+        break
+    return rv
+
+
+def sprint(*args, **kwargs):
+    """Print with stack"""
+    import sys
+    import datetime
+    frame = sys._getframe(kwargs.pop('limit', 1))
+    rv = _find_caller(frame)
+    rv0 = str(rv[0])
+    if len(rv0) > 10:
+        rv0 = '...' + rv0[-10:]
+    rv2 = str(rv[2])
+    if len(rv2) > 10:
+        rv2 = '...' + rv2[-10:]
+    print(f'[{datetime.datetime.now()}][{rv0}:{rv2}:{rv[1]}] ', *args, **kwargs)
+
 
 BLACK, RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN, WHITE = range(8)
 RESET_SEQ = '\033[0m'
