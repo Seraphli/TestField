@@ -42,7 +42,7 @@ def get_path(name='log', abspath=None, relative_path=None,
         os.makedirs(directory)
     return directory
 
-  
+
 def _find_caller(f):
     from logging import os, _srcfile
     rv = "(unknown file)", 0, "(unknown function)", None
@@ -121,7 +121,6 @@ def get_frame():
 def init_logger(name, path=None, level=(logging.INFO, logging.DEBUG),
                 enable=(True, True)):
     """Initialize a logger with certain name
-
     Args:
         name (str): Logger name
         path (str): Optional, specify which folder path
@@ -133,7 +132,6 @@ def init_logger(name, path=None, level=(logging.INFO, logging.DEBUG),
         enable (tuple): Optional, define whether each handler is enabled.
             The first enables console handler,
             and the second enables file handler.
-
     Returns:
         logging.Logger: logger instance
     """
@@ -241,10 +239,8 @@ def init_logger(name, path=None, level=(logging.INFO, logging.DEBUG),
     return logger
 
 
-import datetime
-
-
 def get_run_timestamp():
+    import datetime
     return datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
 
 
