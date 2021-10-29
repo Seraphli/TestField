@@ -27,14 +27,14 @@ def get_path(name='log', abspath=None, relative_path=None,
         elif _file:
             if parent:
                 directory = os.path.abspath(
-                    os.path.join(os.path.dirname(_file), os.pardir, name))
+                    os.path.join(os.path.dirname(_file), *([os.pardir] * parent), name))
             else:
                 directory = os.path.abspath(
                     os.path.join(os.path.dirname(_file), name))
         else:
             if parent:
                 directory = os.path.abspath(
-                    os.path.join(os.path.dirname(__file__), os.pardir, name))
+                    os.path.join(os.path.dirname(__file__), *([os.pardir] * parent), name))
             else:
                 directory = os.path.abspath(
                     os.path.join(os.path.dirname(__file__), name))
