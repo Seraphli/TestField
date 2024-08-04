@@ -98,18 +98,21 @@ class ColoredFormatter(logging.Formatter):
         logging.Formatter.__init__(self, msg)
 
     def format(self, record):
+        record = copy.deepcopy(record)
         levelname = record.levelname
         if levelname in COLORS:
-            levelname_color = COLOR_SEQ % (
-                    30 + COLORS[levelname]) + levelname + RESET_SEQ
+            levelname_color = (
+                COLOR_SEQ % (30 + COLORS[levelname]) + levelname + RESET_SEQ
+            )
             record.levelname = levelname_color
         message = logging.Formatter.format(self, record)
-        message = message.replace('$RESET', RESET_SEQ) \
-            .replace('$BOLD', BOLD_SEQ)
+        message = message.replace("$RESET", RESET_SEQ).replace("$BOLD", BOLD_SEQ)
         for k, v in COLORS.items():
-            message = message.replace('$' + k, COLOR_SEQ % (v + 30)) \
-                .replace('$BG' + k, COLOR_SEQ % (v + 40)) \
-                .replace('$BG-' + k, COLOR_SEQ % (v + 40))
+            message = (
+                message.replace("$" + k, COLOR_SEQ % (v + 30))
+                .replace("$BG" + k, COLOR_SEQ % (v + 40))
+                .replace("$BG-" + k, COLOR_SEQ % (v + 40))
+            )
         return message + RESET_SEQ
 
 
